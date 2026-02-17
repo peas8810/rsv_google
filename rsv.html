@@ -17,8 +17,8 @@
     .brand{display:flex;align-items:center;gap:8px;min-width:0;}
     .icon{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg, rgba(17,24,39,.10), rgba(17,24,39,.02));border:1px solid rgba(17,24,39,.14);}
     .title{font-size:13px;font-weight:800;color:var(--t);margin:0;line-height:1.15;}
-    .subtitle{margin-top:2px;font-size:10px;font-weight:600;color:var(--m);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px;}
-    .badge{font-size:10px;font-weight:700;color:var(--m);background:var(--badge);border:1px solid var(--b);padding:4px 8px;border-radius:999px;white-space:nowrap;}
+    .subtitle{margin-top:2px;font-size:10px;font-weight:600;color:var(--m);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;}
+    .badge{font-size:10px;font-weight:800;color:var(--m);background:var(--badge);border:1px solid var(--b);padding:4px 8px;border-radius:999px;white-space:nowrap;}
     .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:8px;}
     .stat{border:1px solid var(--b);border-radius:12px;padding:8px 10px;background:linear-gradient(180deg,#fff,#fafafa);}
     .k{font-size:10px;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:.02em;margin-bottom:3px;}
@@ -74,7 +74,9 @@
 
 <script>
 (async function(){
-  const URL = "https://raw.githubusercontent.com/peas8810/ojs_google_remunom/main/rsv-scholar.json";
+  // ✅ ATENÇÃO: repo correto rsv_google
+  const URL = "https://raw.githubusercontent.com/peas8810/rsv_google/main/rsv-scholar.json";
+
   const $ = (id)=>document.getElementById(id);
   const fmt = (n)=> (n===null||n===undefined||n==="") ? "—" : String(Number(n));
 
@@ -118,7 +120,10 @@
     options:{
       responsive:true, maintainAspectRatio:false,
       plugins:{legend:{display:false}},
-      scales:{x:{display:false}, y:{display:false, min:min-pad, max:max+pad}}
+      scales:{
+        x:{display:false, grid:{display:false}},
+        y:{display:false, min:min-pad, max:max+pad, grid:{display:false}}
+      }
     }
   });
 })();
