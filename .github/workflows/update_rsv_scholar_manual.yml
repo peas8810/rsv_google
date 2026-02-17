@@ -1,0 +1,83 @@
+name: Update RSV Scholar JSON (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile_name:
+        description: "Nome do perfil"
+        required: true
+        default: "RSV (Google Scholar)"
+      source:
+        description: "Link do Google Scholar"
+        required: true
+        default: "https://scholar.google.com/citations?hl=pt-BR&user=zAB2GDcAAAAJ&view_op=list_works"
+      citations_all:
+        description: "Citações (All)"
+        required: true
+        default: "363"
+      citations_5y:
+        description: "Citações (Desde 2021)"
+        required: false
+        default: "360"
+      h_index_all:
+        description: "h-index (All)"
+        required: true
+        default: "6"
+      h_index_5y:
+        description: "h-index (Desde 2021)"
+        required: false
+        default: "6"
+      i10_index_all:
+        description: "i10-index (All)"
+        required: true
+        default: "0"
+      i10_index_5y:
+        description: "i10-index (Desde 2021)"
+        required: false
+        default: "0"
+      citations_by_year:
+        description: "Citações por ano (um por linha: 2020=0)"
+        required: true
+        default: |
+          2020=0
+          2021=5
+          2022=20
+          2023=40
+          2024=105
+          2025=175
+          2026=8
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run updater (manual)
+        env:
+          PROFILE_NAME: ${{ inputs.profile_name }}
+          SOURCE: ${{ inputs.source }}
+          CITATIONS_ALL: ${{ inputs.citations_all }}
+          CITATIONS_5Y: ${{ inputs.citations_5y }}
+          H_INDEX_ALL: ${{ inputs.h_index_all }}
+          H_INDEX_5Y: ${{ inputs.h_index_5y }}
+          I10_INDEX_ALL: ${{ inputs.i10_index_all }}
+          I10_INDEX_5Y: ${{ inputs.i10_index_5y }}
+          CITATIONS_BY_YEAR: ${{ inputs.citations_by_year }}
+        run: |
+          python scripts/update_rsv_scholar_manual.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add rsv-scholar.json
+          git diff --cached --quiet || git commit -m "manual: update RSV Scholar metrics"
+          git push
