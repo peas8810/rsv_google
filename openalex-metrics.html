@@ -86,14 +86,14 @@
 
       <div class="foot">
         <div>Fonte: OpenAlex • Atualização: <span id="updated">manual</span></div>
-        <div><a id="jsonlink" href="#" target="_blank" rel="noopener">Ver JSON</a></div>
+        <div><a id="jsonlink" href="#" target="_blank" rel="noopener">Editora UJN</a></div>
       </div>
     </section>
 
     <!-- CARD: TOP 3 -->
     <aside class="card">
       <div class="cardTitle">
-        <h2>Top 3 anos</h2>
+        <h2>Top 3 Year</h2>
         <div class="mini">ranking</div>
       </div>
       <div class="rank" id="rank"></div>
@@ -175,7 +175,7 @@
 
   // Top 3 ranking (desc)
   const top3 = [...rows].sort((a,b)=> b.count - a.count).slice(0,3);
-  const medals = ["🥇","🥈","🥉"];
+  const medals = ["1°","2°","3°"];
 
   const rankEl = $("rank");
   rankEl.innerHTML = "";
