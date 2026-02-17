@@ -4,88 +4,112 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg:#fff;--b:#e5e7eb;--t:#0f172a;--m:#64748b;--m2:#94a3b8;--a:#111827;
-      --badge:#f1f5f9;--sh:0 1px 0 rgba(15,23,42,.04),0 8px 18px rgba(15,23,42,.08);
+      --badge:#f1f5f9;--sh:0 1px 0 rgba(15,23,42,.04),0 10px 24px rgba(15,23,42,.08);
     }
-    body{margin:0;background:transparent;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--t);}
-    .card{border:1px solid var(--b);border-radius:14px;box-shadow:var(--sh);background:var(--bg);padding:10px;}
-    .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
-    .ttl{font-size:12px;font-weight:900;margin:0;letter-spacing:-.01em;}
-    .sub{font-size:10px;font-weight:700;color:var(--m);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;}
-    .pill{font-size:10px;font-weight:900;color:var(--m);background:var(--badge);border:1px solid var(--b);padding:4px 8px;border-radius:999px;white-space:nowrap;}
+    body{margin:0;background:#ffffff;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--t);}
+    .wrap{max-width:980px;margin:18px auto;padding:0 14px;}
+    .header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px;}
+    .hTitle{font-size:20px;font-weight:900;margin:0;letter-spacing:-.02em;}
+    .hSub{margin:4px 0 0;font-size:12px;font-weight:600;color:var(--m);}
+    .pill{font-size:11px;font-weight:800;color:var(--m);background:var(--badge);border:1px solid var(--b);padding:6px 10px;border-radius:999px;white-space:nowrap;}
 
-    .chartBox{border:1px solid var(--b);border-radius:12px;padding:8px;background:linear-gradient(180deg,#fff,#fafafa);}
-    canvas{width:100% !important;height:86px !important;}
+    .grid{display:grid;grid-template-columns: 2fr 1fr; gap:12px;}
+    @media (max-width: 860px){ .grid{grid-template-columns:1fr;} }
 
-    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 6px;}
-    .stat{border:1px solid var(--b);border-radius:12px;padding:8px;background:#fff;}
-    .k{font-size:9px;font-weight:900;color:var(--m);text-transform:uppercase;letter-spacing:.06em;}
-    .v{font-size:12px;font-weight:900;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .v small{font-size:10px;font-weight:900;color:var(--m2);}
+    .card{background:var(--bg);border:1px solid var(--b);border-radius:16px;box-shadow:var(--sh);padding:14px;}
+    .cardTitle{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;}
+    .cardTitle h2{font-size:13px;font-weight:900;margin:0;text-transform:uppercase;letter-spacing:.06em;color:var(--m);}
+    .mini{font-size:11px;font-weight:700;color:var(--m2);white-space:nowrap;}
+    canvas{width:100% !important;height:320px !important;}
+    @media (max-width: 860px){ canvas{height:260px !important;} }
 
-    .rank{border:1px solid var(--b);border-radius:12px;background:#fff;padding:8px;}
-    .rankT{font-size:10px;font-weight:900;color:var(--m);text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px;}
-    .rrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0;border-top:1px dashed rgba(148,163,184,.35);}
-    .rrow:first-of-type{border-top:0;padding-top:0;}
-    .left{display:flex;align-items:center;gap:8px;min-width:0;}
-    .med{width:22px;height:22px;border-radius:8px;display:grid;place-items:center;border:1px solid var(--b);background:linear-gradient(135deg, rgba(17,24,39,.08), rgba(17,24,39,.02));font-size:12px;}
-    .yr{font-size:11px;font-weight:900;}
-    .ct{font-size:11px;font-weight:900;color:var(--t);}
-    .foot{margin-top:6px;font-size:10px;font-weight:700;color:var(--m2);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px;}
+    .stat{border:1px solid var(--b);border-radius:14px;padding:10px 12px;background:linear-gradient(180deg,#fff,#fafafa);}
+    .k{font-size:10px;font-weight:900;color:var(--m);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+    .v{font-size:18px;font-weight:900;color:var(--t);line-height:1;}
+    .v small{font-size:12px;font-weight:800;color:var(--m);}
+
+    .rank{display:flex;flex-direction:column;gap:10px;}
+    .rankRow{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--b);border-radius:14px;padding:10px 12px;background:#fff;}
+    .left{display:flex;align-items:center;gap:10px;min-width:0;}
+    .medal{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--b);background:linear-gradient(135deg, rgba(17,24,39,.08), rgba(17,24,39,.02));font-weight:900;}
+    .year{font-size:14px;font-weight:900;color:var(--t);}
+    .bar{flex:1;height:10px;background:#f1f5f9;border:1px solid var(--b);border-radius:999px;overflow:hidden;min-width:90px;}
+    .fill{height:100%;background:var(--a);opacity:.85;border-radius:999px;}
+    .count{font-size:14px;font-weight:900;color:var(--t);white-space:nowrap;}
+    .foot{margin-top:12px;font-size:11px;font-weight:700;color:var(--m2);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
     a{color:inherit;text-decoration:none} a:hover{text-decoration:underline}
   </style>
 </head>
+
 <body>
-
-<div class="card">
-  <div class="top">
+<div class="wrap">
+  <div class="header">
     <div>
-      <div class="ttl">OpenAlex Metrics</div>
-      <div class="sub" id="range">Distribuição anual</div>
+      <h1 class="hTitle">OpenAlex Metrics</h1>
+      <div class="hSub">Distribuição anual (barras) + ranking Top 3 anos</div>
     </div>
-    <div class="pill">Compact</div>
+    <div class="pill" id="pill">Carregando…</div>
   </div>
 
-  <div class="chartBox">
-    <canvas id="chart"></canvas>
-  </div>
+  <div class="grid">
+    <!-- CARD: BARRAS -->
+    <section class="card">
+      <div class="cardTitle">
+        <h2>Works por ano</h2>
+        <div class="mini" id="range">—</div>
+      </div>
+      <canvas id="chart"></canvas>
 
-  <div class="stats">
-    <div class="stat">
-      <div class="k">Total</div>
-      <div class="v" id="total">—</div>
-    </div>
-    <div class="stat">
-      <div class="k">Campeão</div>
-      <div class="v" id="champ">—</div>
-    </div>
-    <div class="stat">
-      <div class="k">Último</div>
-      <div class="v" id="last">—</div>
-    </div>
-  </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Total works</div>
+          <div class="v" id="total">—</div>
+        </div>
+        <div class="stat">
+          <div class="k">Ano campeão</div>
+          <div class="v" id="champ">—</div>
+        </div>
+        <div class="stat">
+          <div class="k">Último ano</div>
+          <div class="v" id="last">—</div>
+        </div>
+      </div>
 
-  <div class="rank">
-    <div class="rankT">Top 3 anos</div>
-    <div id="rank"></div>
-  </div>
+      <div class="foot">
+        <div>Fonte: OpenAlex • Atualização: <span id="updated">manual</span></div>
+        <div><a id="jsonlink" href="#" target="_blank" rel="noopener">Ver JSON</a></div>
+      </div>
+    </section>
 
-  <div class="foot">
-    <div>Fonte: OpenAlex</div>
-    <div><a id="jsonlink" href="#" target="_blank" rel="noopener">Ver JSON</a></div>
+    <!-- CARD: TOP 3 -->
+    <aside class="card">
+      <div class="cardTitle">
+        <h2>Top 3 anos</h2>
+        <div class="mini">ranking</div>
+      </div>
+      <div class="rank" id="rank"></div>
+      <div class="foot">
+        <div>Dica: use este ranking em textos institucionais.</div>
+      </div>
+    </aside>
   </div>
 </div>
 
 <script>
 (async function(){
+  // ✅ repo correto: peas8810/rsv_google
   const RAW_JSON = "https://raw.githubusercontent.com/peas8810/rsv_google/main/openalex.json";
   const $ = (id)=>document.getElementById(id);
+  const fmt = (n)=> (n===null||n===undefined||Number.isNaN(n)) ? "—" : String(n);
 
   $("jsonlink").href = RAW_JSON;
 
@@ -93,9 +117,11 @@
   if(!res.ok) throw new Error("HTTP " + res.status);
   const data = await res.json();
 
-  const total = data?.meta?.count ?? null;
-  $("total").textContent = (total===null ? "—" : String(total));
+  const metaCount = data?.meta?.count ?? null;
+  $("total").textContent = fmt(metaCount);
+  $("pill").textContent = `works: ${fmt(metaCount)} • groups: ${fmt(data?.meta?.groups_count ?? "—")}`;
 
+  // Normaliza e ordena por ano
   const groups = Array.isArray(data.group_by) ? data.group_by : [];
   const rows = groups
     .map(g => ({ year: String(g.key_display_name ?? g.key ?? ""), count: Number(g.count ?? 0) }))
@@ -107,7 +133,7 @@
   const years = rows.map(r=>r.year);
   const counts = rows.map(r=>r.count);
 
-  $("range").textContent = `Distribuição anual • ${years[0]}–${years[years.length-1]}`;
+  $("range").textContent = `${years[0]}–${years[years.length-1]}`;
 
   const champ = rows.reduce((p,c)=> c.count > p.count ? c : p, rows[0]);
   $("champ").innerHTML = `${champ.year} <small>(${champ.count})</small>`;
@@ -115,7 +141,8 @@
   const lastRow = rows[rows.length-1];
   $("last").innerHTML = `${lastRow.year} <small>(${lastRow.count})</small>`;
 
-  // Mini barras (compacto)
+  // Chart.js barras
+  const max = Math.max(...counts);
   new Chart($("chart"), {
     type: "bar",
     data: {
@@ -123,9 +150,9 @@
       datasets: [{
         data: counts,
         borderWidth: 0,
-        borderRadius: 6,
-        barThickness: 18,
-        maxBarThickness: 22
+        borderRadius: 8,
+        barThickness: 26,
+        maxBarThickness: 34
       }]
     },
     options: {
@@ -133,29 +160,41 @@
       maintainAspectRatio: false,
       plugins: { legend: { display:false }, tooltip:{ enabled:true } },
       scales: {
-        x: { grid: { display:false }, ticks: { font: { family:"Inter", size: 10, weight:"800" } } },
-        y: { display:false, beginAtZero:true }
+        x: {
+          grid: { display:false },
+          ticks: { font: { family:"Inter", size: 12, weight: "700" } }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: "rgba(148,163,184,.35)" },
+          ticks: { font: { family:"Inter", size: 11, weight: "700" } }
+        }
       }
     }
   });
 
-  // Top 3 (curto)
+  // Top 3 ranking (desc)
   const top3 = [...rows].sort((a,b)=> b.count - a.count).slice(0,3);
   const medals = ["🥇","🥈","🥉"];
+
   const rankEl = $("rank");
   rankEl.innerHTML = "";
 
   top3.forEach((r, i) => {
-    const div = document.createElement("div");
-    div.className = "rrow";
-    div.innerHTML = `
+    const pct = max ? Math.round((r.count / max) * 100) : 0;
+    const row = document.createElement("div");
+    row.className = "rankRow";
+    row.innerHTML = `
       <div class="left">
-        <div class="med">${medals[i]}</div>
-        <div class="yr">${r.year}</div>
+        <div class="medal">${medals[i]}</div>
+        <div class="year">${r.year}</div>
       </div>
-      <div class="ct">${r.count}</div>
+      <div class="bar" aria-hidden="true">
+        <div class="fill" style="width:${pct}%;"></div>
+      </div>
+      <div class="count">${r.count}</div>
     `;
-    rankEl.appendChild(div);
+    rankEl.appendChild(row);
   });
 })();
 </script>
