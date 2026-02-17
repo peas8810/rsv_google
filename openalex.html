@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{--bg:#fff;--b:#e5e7eb;--t:#0f172a;--m:#64748b;--m2:#94a3b8;--a:#111827;--badge:#f1f5f9;--sh:0 1px 0 rgba(15,23,42,.04),0 6px 18px rgba(15,23,42,.06);}
+    body{margin:0;background:transparent;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;}
+    .card{background:var(--bg);border:1px solid var(--b);border-radius:14px;box-shadow:var(--sh);padding:12px 12px 10px;}
+    .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;}
+    .brand{display:flex;align-items:center;gap:8px;min-width:0;}
+    .icon{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg, rgba(17,24,39,.10), rgba(17,24,39,.02));border:1px solid rgba(17,24,39,.14);}
+    .title{font-size:13px;font-weight:800;color:var(--t);margin:0;line-height:1.15;}
+    .subtitle{margin-top:2px;font-size:10px;font-weight:600;color:var(--m);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;}
+    .badge{font-size:10px;font-weight:800;color:var(--m);background:var(--badge);border:1px solid var(--b);padding:4px 8px;border-radius:999px;white-space:nowrap;}
+
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:8px;}
+    .stat{border:1px solid var(--b);border-radius:12px;padding:8px 10px;background:linear-gradient(180deg,#fff,#fafafa);}
+    .k{font-size:10px;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:.02em;margin-bottom:3px;}
+    .v{font-size:14px;font-weight:800;color:var(--t);line-height:1;}
+
+    .chartBox{border:1px solid var(--b);border-radius:12px;padding:8px 10px 6px;background:#fff;}
+    .chartHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px;}
+    .chartLabel{font-size:10px;font-weight:800;color:var(--m);text-transform:uppercase;letter-spacing:.02em;}
+    .chartMini{font-size:10px;font-weight:700;color:var(--m2);white-space:nowrap;}
+    canvas{width:100% !important;height:92px !important;}
+
+    .foot{margin-top:8px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:10px;color:var(--m2);}
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="top">
+    <div class="brand">
+      <div class="icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M4 19V5" stroke="rgba(17,24,39,.70)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M4 19H20" stroke="rgba(17,24,39,.45)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M7 15V11" stroke="rgba(17,24,39,.95)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M12 15V8" stroke="rgba(17,24,39,.95)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M17 15V6" stroke="rgba(17,24,39,.95)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <p class="title">OpenAlex</p>
+        <div class="subtitle" id="sub">Works por ano (group_by)</div>
+      </div>
+    </div>
+    <div class="badge">Metrics</div>
+  </div>
+
+  <div class="grid">
+    <div class="stat"><div class="k">Total works</div><div class="v" id="total">—</div></div>
+    <div class="stat"><div class="k">Top ano</div><div class="v" id="top">—</div></div>
+    <div class="stat"><div class="k">Último ano</div><div class="v" id="last">—</div></div>
+  </div>
+
+  <div class="chartBox">
+    <div class="chartHead">
+      <div class="chartLabel">Distribuição anual</div>
+      <div class="chartMini" id="note">—</div>
+    </div>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <div class="foot">
+    <div>Fonte: OpenAlex • Atualização: <span id="updated">manual</span></div>
+  </div>
+</div>
+
+<script>
+(async function(){
+  // ✅ troque aqui se seu repo for outro
+  const URL = "https://raw.githubusercontent.com/peas8810/rsv_google/main/openalex.json";
+
+  const $ = (id)=>document.getElementById(id);
+
+  const res = await fetch(URL + "?t=" + Date.now(), { cache:"no-store" });
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  const data = await res.json();
+
+  const total = data?.meta?.count ?? null;
+  $("total").textContent = (total===null ? "—" : String(total));
+
+  const groups = Array.isArray(data.group_by) ? data.group_by : [];
+  // normaliza e ordena por ano
+  const rows = groups
+    .map(g => ({ year: String(g.key_display_name ?? g.key ?? ""), count: Number(g.count ?? 0) }))
+    .filter(r => r.year && Number.isFinite(r.count))
+    .sort((a,b)=> Number(a.year) - Number(b.year));
+
+  if(!rows.length) return;
+
+  // top ano
+  const topRow = rows.reduce((p,c)=> c.count > p.count ? c : p, rows[0]);
+  $("top").textContent = `${topRow.year} (${topRow.count})`;
+
+  // último ano do dataset
