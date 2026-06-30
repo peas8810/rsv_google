@@ -3,12 +3,12 @@
   "profile_name": "RSV (Google Scholar)",
   "updated_at": "2026-05-23",
   "metrics": {
-    "citations_all": 619,
-    "citations_5y": 615,
+    "citations_all": 698,
+    "citations_5y": 693,
     "h_index_all": 6,
     "h_index_5y": 6,
-    "i10_index_all": 3,
-    "i10_index_5y": 3
+    "i10_index_all": 4,
+    "i10_index_5y": 4
   },
   "citations_by_year": [
     { "year": "2020", "value": 0 },
@@ -17,6 +17,6 @@
     { "year": "2023", "value": 40 },
     { "year": "2024", "value": 105 },
     { "year": "2025", "value": 181 },
-    { "year": "2026", "value": 244 }
+    { "year": "2026", "value": 281 }
   ]
 }
