@@ -1,1 +1,29 @@
+{
+  "titulo_widget": "TOP 3 ARTIGOS",
+  "subtitulo": "PlumX Metrics",
+  "data_atualizacao": "Julho 2026",
+  "artigos": [
+    {
+      "rank": 1,
+      "titulo": "Título do Artigo 1",
+      "url_artigo": "https://plu.mx/plum/a/?doi=10.61164/rsv.v5i1.3790",
+      "doi": "10.61164/rsv.v5i1.3790",
+      "url_plumx": "https://plu.mx/plum/a/?doi=10.61164/rsv.v5i1.3790"
+    },
+    {
+      "rank": 2,
+      "titulo": "Título do Artigo 2",
+      "url_artigo": "https://plu.mx/plum/a/?doi=10.61164/rsv.v7i1.1946",
+      "doi": "10.61164/rsv.v7i1.1946",
+      "url_plumx": "https://plu.mx/plum/a/?doi=10.61164/rsv.v7i1.1946"
+    },
+    {
+      "rank": 3,
+      "titulo": "Título do Artigo 3",
+      "url_artigo": "https://plu.mx/plum/a/?doi=10.61164/rsv.v11i1.3055",
+      "doi": "10.61164/rsv.v11i1.3055",
+      "url_plumx": "https://plu.mx/plum/a/?doi=10.61164/rsv.v11i1.3055"
+    }
+  ]
+}
 
