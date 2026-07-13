@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlumX Metrics/Elsevier - Top 3 RSV</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            color: #333;
+        }
+        
+        .widget-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 15px;
+            background-color: #fff;
+            max-width: 100%;
+        }
+        
+        .widget-header {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .plumx-logo-text {
+            font-weight: 600;
+            color: #555;
+            text-transform: none;
+        }
+        
+        .article-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #f0f0f0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        
+        .article-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .article-info {
+            flex: 1;
+            padding-right: 10px;
+        }
+        
+        .article-rank {
+            font-weight: bold;
+            color: #0056b3;
+            margin-right: 5px;
+        }
+        
+        .article-title {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #222;
+            text-decoration: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .article-title:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        
+        .article-metrics {
+            width: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .update-info {
+            font-size: 11px;
+            color: #888;
+            text-align: right;
+            margin-top: 10px;
+        }
+        
+        /* Ajuste para o widget oficial do PlumX */
+        .plumx-plum-print-popup {
+            text-decoration: none !important;
+            border: none !important;
+        }
+    </style>
+    
+    <!-- Script Oficial do PlumX -->
+    <script type="text/javascript" src="https://cdn.plu.mx/widget-popup.js"></script>
+</head>
+<body>
+
+<div class="widget-container">
+    <div class="widget-header">
+        <span>TOP 3 ARTIGOS</span>
+        <span class="plumx-logo-text">PlumX Metrics</span>
+    </div>
+    
+    <!-- ARTIGO 1 -->
+    <div class="article-item">
+        <div class="article-info">
+            <a href="https://plu.mx/plum/a/?doi=10.61164/rsv.v5i1.3790" target="_parent" class="article-title">
+                <span class="article-rank">1.</span> Título do Artigo 1
+            </a>
+        </div>
+        <div class="article-metrics">
+            <a href="https://plu.mx/plum/a/?doi=10.61164/rsv.v5i1.3790" class="plumx-plum-print-popup" data-hide-when-empty="true" data-site="plum" data-size="medium"></a>
+        </div>
+    </div>
+    
+    <!-- ARTIGO 2 -->
+    <div class="article-item">
+        <div class="article-info">
+            <a href="https://plu.mx/plum/a/?doi=10.61164/rsv.v7i1.1946" target="_parent" class="article-title">
+                <span class="article-rank">2.</span> Título do Artigo 2
+            </a>
+        </div>
+        <div class="article-metrics">
+            <a href="https://plu.mx/plum/a/?doi=10.61164/rsv.v7i1.1946" class="plumx-plum-print-popup" data-hide-when-empty="true" data-site="plum" data-size="medium"></a>
+        </div>
+    </div>
+    
+    <!-- ARTIGO 3 -->
+    <div class="article-item">
+        <div class="article-info">
+            <a href="https://plu.mx/plum/a/?doi=10.61164/rsv.v11i1.3055" target="_parent" class="article-title">
+                <span class="article-rank">3.</span> Título do Artigo 3
+            </a>
+        </div>
+        <div class="article-metrics">
+            <a href="https://plu.mx/plum/a/?doi=10.61164/rsv.v11i1.3055" class="plumx-plum-print-popup" data-hide-when-empty="true" data-site="plum" data-size="medium"></a>
+        </div>
+    </div>
+    
+    <div class="update-info">
+        Upload: <span id="data-atualizacao">Jul/2026</span>
+    </div>
+</div>
+
+<script>
+    // Atualiza a data automaticamente para o mês atual (com iniciais)
+    const dataAtual = new Date();
+    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    document.getElementById('data-atualizacao').innerText = meses[dataAtual.getMonth()] + '/' + dataAtual.getFullYear();
+</script>
+
+</body>
+</html>
 
